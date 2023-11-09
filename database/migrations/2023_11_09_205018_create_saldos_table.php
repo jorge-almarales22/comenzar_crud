@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('saldos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role')->default('operador');
-            $table->rememberToken();
+
+            $table->foreignId('cliente_id')
+            ->references('id')
+            ->on('clientes')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->decimal('valor', $precision = 20, $scale = 2);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('saldos');
     }
 };
