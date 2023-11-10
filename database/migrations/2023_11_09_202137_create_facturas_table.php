@@ -27,6 +27,8 @@ return new class extends Migration
             ->onDelete('restrict');
 
             $table->string("numero_factura");
+            $table->string("foto_factura");
+            $table->string("campaña");
             $table->decimal('valor', $precision = 20, $scale = 2);
             $table->timestamp('fecha_caducidad');
             $table->timestamps();
