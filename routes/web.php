@@ -19,6 +19,10 @@ Route::get('/', function () {
 Route::get('/registroclientes', function () {
     return view('registroclientes');
 });
+Route::get('/loginclientes', function () {
+    return view('loginclientes');
+});
+
 
 
 Auth::routes();
