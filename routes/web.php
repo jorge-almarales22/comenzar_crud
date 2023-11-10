@@ -29,10 +29,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('/clientes')->group(function () {
 
-    Route::get('/create', [App\Http\Controllers\ClienteController::class, 'create'])->name('create.cliente');
-    Route::post('/store', [App\Http\Controllers\ClienteController::class, 'store'])->name('store.cliente');
-    Route::post('/update', [App\Http\Controllers\ClienteController::class, 'update'])->name('update.cliente');
-    Route::post('/destroy', [App\Http\Controllers\ClienteController::class, 'destroy'])->name('destroy.cliente');
+    Route::get('/create', [App\Http\Controllers\ClienteController::class, 'create'])->name('create.cliente');//DONE
+    Route::get('/updating/{cliente}', [App\Http\Controllers\ClienteController::class, 'updating'])->name('updating.cliente');//DONE
+    Route::post('/store', [App\Http\Controllers\ClienteController::class, 'store'])->name('store.cliente');//DONE
+    Route::post('/update', [App\Http\Controllers\ClienteController::class, 'update'])->name('update.cliente');//DONE
+    Route::get('/destroy/{cliente}', [App\Http\Controllers\ClienteController::class, 'destroy'])->name('destroy.cliente');//DONE
+    
 });
 
 Route::prefix('/tiendas')->group(function () {

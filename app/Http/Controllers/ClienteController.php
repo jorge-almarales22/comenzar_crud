@@ -9,19 +9,20 @@ class ClienteController extends Controller
 {
     public function index()
     {
+        //Aca se va a retornar la vista de home
         // return view('home');
     }
-
     public function create()
     {
-        return "hola";
-        // return view('cliente.create');
+        return view('clientes.home');
+    }
+    public function updating(Cliente $cliente)
+    {
+        return view('clientes.update', compact('cliente'));
     }
 
     public function store(Request $request)
     {
-        return $request;
-        
         $request->validate([
             'nombre' => 'required',
             'apellidos' => 'required',
@@ -35,14 +36,15 @@ class ClienteController extends Controller
         ]);
 
         $cliente = new Cliente();
+
         $cliente->nombre = $request->nombre;
         $cliente->apellidos = $request->apellidos;
         $cliente->email = $request->email;
         $cliente->telefono = $request->telefono;
         $cliente->direccion = $request->direccion;
 
-        $fechaActual = new DateTime();
-        $fechaParametro = new DateTime($request->fecha_nacimiento);
+        $fechaActual = new \DateTime();
+        $fechaParametro = new \DateTime($request->fecha_nacimiento);
     
         if ($fechaActual < $fechaParametro) {
             return redirect()->route('home')->with('error', 'La fecha de nacimiento no puede ser posterior a la fecha actual');
@@ -54,10 +56,10 @@ class ClienteController extends Controller
         $cliente->mascotas = $request->mascotas;
         $cliente->save();
 
-        return redirect()->route('home')->with('success', 'Cliente creado exitosamente');
+        return redirect()->route('home')->with('status', 'Cliente creado exitosamente');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
             'nombre' => 'required',
@@ -69,9 +71,10 @@ class ClienteController extends Controller
             'profesion' => 'required',
             'hijos' => 'required',
             'mascotas' => 'required',
+            'cliente_id' => 'required',
         ]);
 
-        $cliente = Cliente::where('id', $id)->first();
+        $cliente = Cliente::where('id', $request->cliente_id)->first();
 
         if (!$cliente) {
             return redirect()->route('home')->with('error', 'Cliente no encontrado');
@@ -83,8 +86,8 @@ class ClienteController extends Controller
         $cliente->telefono = $request->telefono;
         $cliente->direccion = $request->direccion;
 
-        $fechaActual = new DateTime();
-        $fechaParametro = new DateTime($request->fecha_nacimiento);
+        $fechaActual = new \DateTime();
+        $fechaParametro = new \DateTime($request->fecha_nacimiento);
     
         if ($fechaActual < $fechaParametro) {
             return redirect()->route('home')->with('error', 'La fecha de nacimiento no puede ser posterior a la fecha actual');
@@ -96,13 +99,13 @@ class ClienteController extends Controller
         $cliente->mascotas = $request->mascotas;
         $cliente->save();
 
-        return redirect()->route('home')->with('success', 'Cliente actualizado exitosamente');
+        return redirect()->route('home')->with('status', 'Cliente actualizado exitosamente');
     }
 
     public function destroy($id)
     {
         $cliente = Cliente::where('id', $id)->first();
         $cliente->delete();
-        return redirect()->route('home')->with('success', 'Cliente eliminado exitosamente');
+        return redirect()->route('home')->with('status', 'Cliente eliminado exitosamente');
     }
 }
