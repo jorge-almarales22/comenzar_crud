@@ -22,7 +22,9 @@ Route::get('/registroclientes', function () {
 Route::get('/loginclientes', function () {
     return view('loginclientes');
 });
-
+Route::get('/factura', function () {
+    return view('factura');
+});
 
 
 Route::get('/token', function () {
@@ -76,3 +78,4 @@ Route::prefix('/tickets')->group(function () {
     Route::post('/update', [App\Http\Controllers\TicketController::class, 'update'])->name('update.ticket');
     Route::post('/destroy', [App\Http\Controllers\TicketController::class, 'destroy'])->name('destroy.ticket');
 });
+// routes/web.php
