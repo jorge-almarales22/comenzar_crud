@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tienda;
+use App\Models\Cliente;
 use App\Models\Factura;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,15 @@ class FacturaController extends Controller
         $clientes = Cliente::get();
         $tiendas = Tienda::get();
         
-        return view('cliente.create', compact('clientes', 'tiendas'));
+        return view('facturas.home', compact('clientes', 'tiendas'));
+    }
+
+    public function updating(Factura $factura)
+    {
+        $clientes = Cliente::get();
+        $tiendas = Tienda::get();
+        
+        return view('facturas.update', compact('clientes', 'tiendas', 'factura'));
     }
 
     public function store(Request $request)
@@ -38,27 +48,38 @@ class FacturaController extends Controller
         $factura->tienda_id = $request->tienda_id;
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
+        
+        $fechaActual = new \DateTime();
+        $fechaParametro = new \DateTime($request->fecha_caducidad);
+    
+        if ($fechaParametro <= $fechaActual) {
+            return redirect()->route('home')->with('error', 'La fecha de caducidad no puede ser menor o igual a la fecha actual');
+        } 
+
         $factura->fecha_caducidad = $request->fecha_caducidad;
-        $factura->foto_factura = $request->foto_factura;
+        $request->file('foto_factura')->store('public');
+        $factura->foto_factura = $request->file('foto_factura')->store('public');
         $factura->campaña = $request->campaña;
 
         $factura->save();
 
-        return redirect()->route('home')->with('success', 'Factura creada exitosamente');
+        return redirect()->route('home')->with('status', 'Factura creada exitosamente');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
 
         $request->validate([
             'cliente_id' => 'required',
             'tienda_id' => 'required',
+            'factura_id' => 'required',
             'numero_factura' => 'required',
             'valor' => 'required',
             'fecha_caducidad' => 'required',
+            'foto_factura' => 'required',
         ]);
 
-        $factura = Factura::where('id', $id)->first();
+        $factura = Factura::where('id', $request->factura_id)->first();
 
         if (!$factura) {
             return redirect()->route('home')->with('error', 'Factura no encontrada');
@@ -68,17 +89,27 @@ class FacturaController extends Controller
         $factura->tienda_id = $request->tienda_id;
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
-        $factura->fecha_caducidad = $request->fecha_caducidad;
-        $factura->foto_factura = $request->foto_factura;
-        $factura->campaña = $request->campaña;
 
-        return redirect()->route('home')->with('success', 'Factura creada exitosamente');
+        $fechaActual = new \DateTime();
+        $fechaParametro = new \DateTime($request->fecha_caducidad);
+    
+        if ($fechaParametro <= $fechaActual) {
+            return redirect()->route('home')->with('error', 'La fecha de caducidad no puede ser menor o igual a la fecha actual');
+        } 
+
+        $factura->fecha_caducidad = $request->fecha_caducidad;
+        $request->file('foto_factura')->store('public');
+        $factura->foto_factura = $request->file('foto_factura')->store('public');
+        $factura->campaña = $request->campaña;
+        $factura->save();
+
+        return redirect()->route('home')->with('status', 'Factura creada exitosamente');
     }
 
     public function destroy($id)
     {
         $factura = Factura::where('id', $id)->first();
         $factura->delete();
-        return redirect()->route('home')->with('success', 'Factura eliminado exitosamente');
+        return redirect()->route('home')->with('status', 'Factura eliminado exitosamente');
     }
 }

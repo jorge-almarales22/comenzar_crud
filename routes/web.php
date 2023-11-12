@@ -39,18 +39,20 @@ Route::prefix('/clientes')->group(function () {
 
 Route::prefix('/tiendas')->group(function () {
 
-    Route::get('/create', [App\Http\Controllers\TiendaController::class, 'create'])->name('create.tienda');
-    Route::post('/store', [App\Http\Controllers\TiendaController::class, 'store'])->name('store.tienda');
-    Route::post('/update', [App\Http\Controllers\TiendaController::class, 'update'])->name('update.tienda');
-    Route::post('/destroy', [App\Http\Controllers\TiendaController::class, 'destroy'])->name('destroy.tienda');
+    Route::get('/create', [App\Http\Controllers\TiendaController::class, 'create'])->name('create.tienda');//DONE
+    Route::get('/updating/{tienda}', [App\Http\Controllers\TiendaController::class, 'updating'])->name('updating.tienda');//DONE
+    Route::post('/store', [App\Http\Controllers\TiendaController::class, 'store'])->name('store.tienda');//DONE
+    Route::post('/update', [App\Http\Controllers\TiendaController::class, 'update'])->name('update.tienda');//DONE
+    Route::get('/destroy/{tienda}', [App\Http\Controllers\TiendaController::class, 'destroy'])->name('destroy.tienda');//DONE
 });
 
 Route::prefix('/facturas')->group(function () {
 
-    Route::get('/create', [App\Http\Controllers\FacturaController::class, 'create'])->name('create.factura');
-    Route::post('/store', [App\Http\Controllers\FacturaController::class, 'store'])->name('store.factura');
-    Route::post('/update', [App\Http\Controllers\FacturaController::class, 'update'])->name('update.factura');
-    Route::post('/destroy', [App\Http\Controllers\FacturaController::class, 'destroy'])->name('destroy.factura');
+    Route::get('/create', [App\Http\Controllers\FacturaController::class, 'create'])->name('create.factura');//DONE
+    Route::get('/updating/{factura}', [App\Http\Controllers\FacturaController::class, 'updating'])->name('updating.factura');
+    Route::post('/store', [App\Http\Controllers\FacturaController::class, 'store'])->name('store.factura');//DONE
+    Route::post('/update', [App\Http\Controllers\FacturaController::class, 'update'])->name('update.factura');//DONE
+    Route::get('/destroy/{factura}', [App\Http\Controllers\FacturaController::class, 'destroy'])->name('destroy.factura');//DONE
 });
 
 Route::prefix('/saldos')->group(function () {

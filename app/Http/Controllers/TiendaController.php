@@ -14,7 +14,12 @@ class TiendaController extends Controller
 
     public function create()
     {
-        // return view('cliente.create');
+        return view('tiendas.home');
+    }
+
+    public function updating(Tienda $tienda)
+    {
+        return view('tiendas.update', compact('tienda'));
     }
 
     public function store(Request $request)
@@ -27,16 +32,17 @@ class TiendaController extends Controller
         $tienda->nombre = $request->nombre;
         $tienda->save();
 
-        return redirect()->route('home')->with('success', 'Tienda creada exitosamente');
+        return redirect()->route('home')->with('status', 'Tienda creada exitosamente');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
-            'nombre' => 'required'
+            'nombre' => 'required',
+            'tienda_id' => 'required'
         ]);
 
-        $tienda = Tienda::where('id', $id)->first();
+        $tienda = Tienda::where('id', $request->tienda_id)->first();
 
         if (!$tienda) {
             return redirect()->route('home')->with('error', 'Tienda no encontrada');
@@ -45,13 +51,13 @@ class TiendaController extends Controller
         $tienda->nombre = $request->nombre;
         $tienda->save();
 
-        return redirect()->route('home')->with('success', 'Tienda actualizada exitosamente');
+        return redirect()->route('home')->with('status', 'Tienda actualizada exitosamente');
     }
 
     public function destroy($id)
     {
         $tienda = Tienda::where('id', $id)->first();
         $tienda->delete();
-        return redirect()->route('home')->with('success', 'Tienda eliminada exitosamente');
+        return redirect()->route('home')->with('status', 'Tienda eliminada exitosamente');
     }
 }
