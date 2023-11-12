@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Saldo;
+use App\Models\Ticket;
 use App\Models\Tienda;
 use App\Models\Cliente;
 use App\Models\Factura;
@@ -62,6 +64,40 @@ class FacturaController extends Controller
         $factura->campaña = $request->campaña;
 
         $factura->save();
+
+        $ticketsGenerados = floor($request->valor / 50000);
+        $saldoGenerado = $request->valor % 50000;
+
+        $saldo = Saldo::where('cliente_id', $request->cliente_id)->first();
+
+        if (!$saldo && $saldoGenerado > 0) {
+
+            $newSaldo = new Saldo();
+            $newSaldo->cliente_id = $request->cliente_id;
+            $newSaldo->valor = $saldoGenerado;
+            $newSaldo->save();
+
+        }else{
+
+            $saldo->valor = $saldo->valor + $saldoGenerado;
+
+            if($saldo->valor >= 50000){
+
+                $ticketsGenerados = $ticketsGenerados + floor($saldo->valor / 50000);
+                
+                $saldo->valor = $saldo->valor - 50000;
+
+            }
+
+            $saldo->save();
+        }
+
+        for ($i = 1; $i <= $ticketsGenerados; $i++) {
+            $ticket = new Ticket();
+            $ticket->cliente_id = $request->cliente_id;
+            $ticket->numero = "aaaa";
+            $ticket->save();
+        }
 
         return redirect()->route('home')->with('status', 'Factura creada exitosamente');
     }
