@@ -25,6 +25,9 @@ Route::get('/loginclientes', function () {
 Route::get('/factura', function () {
     return view('factura');
 });
+Route::get('/campaña', function () {
+    return view('campaña');
+});
 
 
 Route::get('/token', function () {

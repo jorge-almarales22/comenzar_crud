@@ -10,11 +10,94 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href=" {{ asset('ccs/clientes.css')}} ">
     <title>CRM</title>
+    <style>
+    /* Estilos para el botón "Iniciar" */
+    input[type="submit"] {
+        background-color: #4CAF50;
+        /* Color de fondo */
+        color: white;
+        /* Color del texto */
+        padding: 10px 20px;
+        /* Espaciado interno */
+        border: none;
+        /* Sin borde */
+        border-radius: 5px;
+        /* Bordes redondeados */
+        cursor: pointer;
+        /* Cambia el cursor al pasar sobre el botón */
+        font-size: 16px;
+        /* Tamaño de fuente */
+    }
+
+    /* Estilos adicionales cuando el cursor pasa sobre el botón */
+    input[type="submit"]:hover {
+        background-color: #45a049;
+        /* Cambia el color de fondo al pasar sobre el botón */
+    }
+
+    .container_formulario_request {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        padding-right: 20px;
+        justify-content: center;
+        align-items: center;
+        background-color: hsl(218, 41%, 15%);
+        overflow: hidden;
+    }
+
+    .container_formulario_text {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        /* Puedes ajustar según tus necesidades */
+    }
+
+    .text_info {
+        width: 50%;
+        text-align: right;
+        padding-right: 20px;
+        /* Espaciado a la derecha para separar del formulario */
+    }
+
+    .containerbtnIniciar {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #radius-shape-1 {
+        height: 220px;
+        width: 220px;
+        top: -60px;
+        left: -10px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+    }
+
+    #radius-shape-2 {
+        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+        bottom: -60px;
+        right: -110px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+    }
+
+    .bg-glass {
+        background-color: hsla(0, 0%, 100%, 0.9) !important;
+        backdrop-filter: saturate(200%) blur(25px);
+    }
+    </style>
 </head>
 
 <body>
-   <!-- Navbar -->
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <!-- Container wrapper -->
         <div class="container-fluid">
             <!-- Toggle button -->
@@ -85,8 +168,9 @@
     <!-- Navbar -->
 
     <!-- Section: Design Block -->
-    <section class="background-radial-gradient overflow-hidden vh-100">
+    <section class="background-radial-gradient overflow-hidden vh-120">
         <style>
+            
         .background-radial-gradient {
             background-color: hsl(218, 41%, 15%);
             background-image: radial-gradient(650px circle at 0% 0%,
@@ -133,7 +217,7 @@
                 <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
                     <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
                         CRM PARA CENTRO COMERCIALES <br />
-                        <span style="color: hsl(218, 81%, 75%)">Para tus compras</span>
+                        <span style="color: hsl(218, 81%, 75%)">Facturas</span>
                     </h1>
                 </div>
 
@@ -201,9 +285,9 @@
                                         <label class="form-label" for="form3Example3">Numero de Factura</label>
                                         <input type="number_format" id="form3Example3" class="form-control"
                                             placeholder="No° 09832" />
-                              
+
                                     </div>
-                               
+
                                 </div>
 
                                 <div class="valor">
@@ -230,8 +314,9 @@
                                                 onchange="showInputField(this)">
                                                 <option value="Koak">Koak</option>
                                                 <option value="exito">exito</option>
-                                                <option value="olimpica">olimpica</option>
+                                                <option value="olimpica">Olimpica</option>
                                                 <option value="carulla">carulla</option>
+                                                <option value="carrefur">carrefur</option>
                                                 <option value="gym">gym</option>
                                                 <option value="Otratienda">Otro</option>
                                             </select>
@@ -241,10 +326,23 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- valor facutura input -->
+                                <div class="campaña">
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="labelvalorfactura">Campaña</label>
+                                        <select id="form3Example2" class="form-control" onchange="showInputField(this)">
+                                            <option value="campañamoto">Campaña Moto</option>
+                                            <option value="campañacarro">Campaña Carro</option>
+                                            <option value="campañabicicleta">Campaña bicicleta</option>
+                                        </select>
+                                        <input type="text" id="campaña" class="form-control" style="display: none;" />
+                                    </div>
+                                </div>
                                 <script>
                                 function showInputField(select) {
-                                    var inputField = document.getElementById('otraprofesion');
-                                    if (select.value === 'Otraprofesion') {
+                                    var inputField = document.getElementById('campaña');
+                                    if (select.value === 'campaña') {
                                         inputField.style.display = 'block';
                                     } else {
                                         inputField.style.display = 'none';
@@ -311,8 +409,7 @@
                                 }
                                 </script>
                                 <!-- Submit button -->
-                                <input type="submit" value="guardar" class="btn btn-primary" />
-                            </form>
+                                <a href="campaña" class="btn btn-primary " tabindex="-1" role="button" >Registrar</a>                            </form>
 
                             <script>
                             document.getElementById('myForm').addEventListener('submit', function(e) {
@@ -331,7 +428,8 @@
 
                                 if (!password.match(passwordPattern)) {
                                     alert(
-                                        'La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.');
+                                        'La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.'
+                                        );
                                     return false;
                                 }
 
