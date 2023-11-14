@@ -12,16 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('cliente_id')
-            ->references('id')
-            ->on('clientes')
-            ->onUpdate('restrict')
-            ->onDelete('restrict');
-            
-            $table->string('numero');
-            $table->string('QR')->nullable();
+            $table->id();            
+            $table->string('numero', 20);
+            $table->string('QR', 255)->nullable();
             $table->timestamps();
         });
     }

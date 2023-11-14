@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiendas', function (Blueprint $table) {
+        Schema::create('campañas', function (Blueprint $table) {
             $table->id();
+            
             $table->foreignId('user_id')
             ->references('id')
             ->on('users')
             ->onUpdate('restrict')
             ->onDelete('restrict');
+            $table->timestamp('fecha_inicio')->nullable();
+            $table->timestamp('fecha_caducidad')->nullable();
             $table->string('nombre', 50);
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiendas');
+        Schema::dropIfExists('campañas');
     }
 };

@@ -23,12 +23,14 @@ class SaldoController extends Controller
     {
         $request->validate([
             'cliente_id' => 'required',
+            'campaña_id' => 'required',
             'valor' => 'required'
         ]);
 
         $saldo = new Saldo();
 
         $saldo->cliente_id = $request->cliente_id;
+        $saldo->campaña_id = $request->campaña_id;
         $saldo->valor = $request->valor;
 
         $saldo->save();
@@ -41,6 +43,7 @@ class SaldoController extends Controller
 
         $request->validate([
             'cliente_id' => 'required',
+            'campaña_id' => 'required',
             'valor' => 'required'
         ]);
 
@@ -51,6 +54,7 @@ class SaldoController extends Controller
         }
 
         $saldo->cliente_id = $request->cliente_id;
+        $saldo->campaña_id = $request->campaña_id;
         $saldo->valor = $request->valor;
 
         return redirect()->route('home')->with('success', 'Saldo actualizado exitosamente');

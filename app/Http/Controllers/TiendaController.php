@@ -25,11 +25,13 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required'
+            'nombre' => 'required',
+            'user_id' => 'required',
         ]);
 
         $tienda = new Tienda();
         $tienda->nombre = $request->nombre;
+        $tienda->user_id = $request->user_id;
         $tienda->save();
 
         return redirect()->route('home')->with('status', 'Tienda creada exitosamente');
@@ -39,7 +41,8 @@ class TiendaController extends Controller
     {
         $request->validate([
             'nombre' => 'required',
-            'tienda_id' => 'required'
+            'tienda_id' => 'required',
+            'user_id' => 'required',
         ]);
 
         $tienda = Tienda::where('id', $request->tienda_id)->first();
@@ -49,6 +52,7 @@ class TiendaController extends Controller
         }
 
         $tienda->nombre = $request->nombre;
+        $tienda->user_id = $request->user_id;
         $tienda->save();
 
         return redirect()->route('home')->with('status', 'Tienda actualizada exitosamente');

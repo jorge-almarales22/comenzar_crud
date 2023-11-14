@@ -37,8 +37,11 @@ class FacturaController extends Controller
         $request->validate([
             'cliente_id' => 'required',
             'tienda_id' => 'required',
+            'campaña_id' => 'required',
+            'user_id' => 'required',
             'numero_factura' => 'required',
             'valor' => 'required',
+            'redimido' => 'required',
             'fecha_caducidad' => 'required',
             'foto_factura' => 'required',
             'campaña' => 'required',
@@ -48,8 +51,11 @@ class FacturaController extends Controller
 
         $factura->cliente_id = $request->cliente_id;
         $factura->tienda_id = $request->tienda_id;
+        $factura->campaña_id = $request->campaña_id;
+        $factura->user_id = $request->user_id;
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
+        $factura->redimido = $request->redimido;
         
         $fechaActual = new \DateTime();
         $fechaParametro = new \DateTime($request->fecha_caducidad);
@@ -108,12 +114,16 @@ class FacturaController extends Controller
         $request->validate([
             'cliente_id' => 'required',
             'tienda_id' => 'required',
-            'factura_id' => 'required',
+            'campaña_id' => 'required',
+            'user_id' => 'required',
             'numero_factura' => 'required',
             'valor' => 'required',
+            'redimido' => 'required',
             'fecha_caducidad' => 'required',
             'foto_factura' => 'required',
+            'campaña' => 'required',
         ]);
+
 
         $factura = Factura::where('id', $request->factura_id)->first();
 
@@ -123,8 +133,11 @@ class FacturaController extends Controller
 
         $factura->cliente_id = $request->cliente_id;
         $factura->tienda_id = $request->tienda_id;
+        $factura->campaña_id = $request->campaña_id;
+        $factura->user_id = $request->user_id;
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
+        $factura->redimido = $request->redimido;
 
         $fechaActual = new \DateTime();
         $fechaParametro = new \DateTime($request->fecha_caducidad);

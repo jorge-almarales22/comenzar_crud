@@ -26,11 +26,24 @@ return new class extends Migration
             ->onUpdate('restrict')
             ->onDelete('restrict');
 
-            $table->string("numero_factura");
-            $table->string("foto_factura");
-            $table->string("campaña");
+            $table->foreignId('campaña_id')
+            ->references('id')
+            ->on('campañas')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->string("numero_factura", 20);
+            $table->string("foto_factura", 255);
             $table->decimal('valor', $precision = 20, $scale = 2);
-            $table->timestamp('fecha_caducidad');
+
+            $table->foreignId('user_id')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->boolean('redimido')->default(false);
+
             $table->timestamps();
         });
     }

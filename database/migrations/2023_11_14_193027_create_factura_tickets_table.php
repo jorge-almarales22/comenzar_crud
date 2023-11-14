@@ -11,14 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiendas', function (Blueprint $table) {
+        Schema::create('factura_tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            
+            $table->foreignId('factura_id')
             ->references('id')
-            ->on('users')
+            ->on('facturas')
             ->onUpdate('restrict')
             ->onDelete('restrict');
-            $table->string('nombre', 50);
+
+            $table->foreignId('ticket_id')
+            ->references('id')
+            ->on('tickets')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->decimal('valor_redimido', $precision = 20, $scale = 2);
             $table->timestamps();
         });
     }
@@ -28,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiendas');
+        Schema::dropIfExists('factura_tickets');
     }
 };

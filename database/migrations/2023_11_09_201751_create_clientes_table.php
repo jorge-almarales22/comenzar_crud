@@ -13,15 +13,22 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('apellidos');
-            $table->string('email');
-            $table->string('telefono');
-            $table->string('direccion');
+            $table->string('nombre', 50);
+            $table->string('apellidos', 50);
+            $table->string('email', 50);
+            $table->integer('telefono');
+            $table->string('direccion', 50);
             $table->timestamp('fecha_nacimiento');
-            $table->string('profesion');
-            $table->string('hijos');
-            $table->string('mascotas');
+            $table->string('profesion', 50);
+            $table->integer('hijos');
+            $table->boolean('mascotas')->default(false);
+
+            $table->foreignId('user_id')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
             $table->timestamps();
         });
     }

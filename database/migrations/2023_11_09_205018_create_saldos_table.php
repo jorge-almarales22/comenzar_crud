@@ -19,6 +19,12 @@ return new class extends Migration
             ->on('clientes')
             ->onUpdate('restrict')
             ->onDelete('restrict');
+            
+            $table->foreignId('campaña_id')
+            ->references('id')
+            ->on('campañas')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
 
             $table->decimal('valor', $precision = 20, $scale = 2);
             $table->timestamps();
