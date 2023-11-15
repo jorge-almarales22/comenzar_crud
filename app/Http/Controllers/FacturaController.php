@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use App\Models\Tienda;
 use App\Models\Cliente;
 use App\Models\Factura;
+use App\Models\Campaña;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -20,8 +21,9 @@ class FacturaController extends Controller
     {
         $clientes = Cliente::get();
         $tiendas = Tienda::get();
+        $campañas = Campaña::get();
         
-        return view('facturas.home', compact('clientes', 'tiendas'));
+        return view('facturas.home', compact('clientes', 'tiendas', 'campañas'));
     }
 
     public function updating(Factura $factura)
@@ -42,9 +44,7 @@ class FacturaController extends Controller
             'numero_factura' => 'required',
             'valor' => 'required',
             'redimido' => 'required',
-            'fecha_caducidad' => 'required',
             'foto_factura' => 'required',
-            'campaña' => 'required',
         ]);
 
         $factura = new Factura();
@@ -56,18 +56,9 @@ class FacturaController extends Controller
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
         $factura->redimido = $request->redimido;
-        
-        $fechaActual = new \DateTime();
-        $fechaParametro = new \DateTime($request->fecha_caducidad);
     
-        if ($fechaParametro <= $fechaActual) {
-            return redirect()->route('home')->with('error', 'La fecha de caducidad no puede ser menor o igual a la fecha actual');
-        } 
-
-        $factura->fecha_caducidad = $request->fecha_caducidad;
         $request->file('foto_factura')->store('public');
         $factura->foto_factura = $request->file('foto_factura')->store('public');
-        $factura->campaña = $request->campaña;
 
         $factura->save();
 
@@ -80,6 +71,7 @@ class FacturaController extends Controller
 
             $newSaldo = new Saldo();
             $newSaldo->cliente_id = $request->cliente_id;
+            $newSaldo->campaña_id = $request->campaña_id;
             $newSaldo->valor = $saldoGenerado;
             $newSaldo->save();
 
@@ -100,7 +92,6 @@ class FacturaController extends Controller
 
         for ($i = 1; $i <= $ticketsGenerados; $i++) {
             $ticket = new Ticket();
-            $ticket->cliente_id = $request->cliente_id;
             $ticket->numero = "aaaa";
             $ticket->save();
         }
@@ -119,9 +110,7 @@ class FacturaController extends Controller
             'numero_factura' => 'required',
             'valor' => 'required',
             'redimido' => 'required',
-            'fecha_caducidad' => 'required',
             'foto_factura' => 'required',
-            'campaña' => 'required',
         ]);
 
 
@@ -138,18 +127,8 @@ class FacturaController extends Controller
         $factura->numero_factura = $request->numero_factura;
         $factura->valor = $request->valor;
         $factura->redimido = $request->redimido;
-
-        $fechaActual = new \DateTime();
-        $fechaParametro = new \DateTime($request->fecha_caducidad);
-    
-        if ($fechaParametro <= $fechaActual) {
-            return redirect()->route('home')->with('error', 'La fecha de caducidad no puede ser menor o igual a la fecha actual');
-        } 
-
-        $factura->fecha_caducidad = $request->fecha_caducidad;
         $request->file('foto_factura')->store('public');
         $factura->foto_factura = $request->file('foto_factura')->store('public');
-        $factura->campaña = $request->campaña;
         $factura->save();
 
         return redirect()->route('home')->with('status', 'Factura creada exitosamente');

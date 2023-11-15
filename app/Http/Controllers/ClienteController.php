@@ -33,6 +33,7 @@ class ClienteController extends Controller
             'profesion' => 'required',
             'hijos' => 'required',
             'mascotas' => 'required',
+            'user_id' => 'required',
         ]);
 
         $cliente = new Cliente();
@@ -54,6 +55,7 @@ class ClienteController extends Controller
         $cliente->profesion = $request->profesion;
         $cliente->hijos = $request->hijos;
         $cliente->mascotas = $request->mascotas;
+        $cliente->user_id = $request->user_id;
         $cliente->save();
 
         return redirect()->route('home')->with('status', 'Cliente creado exitosamente');
@@ -72,6 +74,7 @@ class ClienteController extends Controller
             'hijos' => 'required',
             'mascotas' => 'required',
             'cliente_id' => 'required',
+            'user_id' => 'required',
         ]);
 
         $cliente = Cliente::where('id', $request->cliente_id)->first();
@@ -97,6 +100,7 @@ class ClienteController extends Controller
         $cliente->profesion = $request->profesion;
         $cliente->hijos = $request->hijos;
         $cliente->mascotas = $request->mascotas;
+        $cliente->user_id = $request->user_id;
         $cliente->save();
 
         return redirect()->route('home')->with('status', 'Cliente actualizado exitosamente');

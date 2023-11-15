@@ -17,6 +17,7 @@
                     <form action="{{ route('update.cliente') }}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="cliente_id" value="{{ $cliente->id }}"/>
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"/>
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input type="nombre" class="form-control" value="{{ $cliente->nombre }}" name="nombre">
@@ -53,7 +54,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Mascotas</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" value="{{ $cliente->mascotas }}" name="mascotas">
+                            <input type="checkbox" name="mascotas">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

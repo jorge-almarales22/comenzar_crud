@@ -16,6 +16,7 @@
 
                     <form action="{{ route('store.factura') }}" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"/>
                         <div class="mb-3">
                             <label class="form-label">Tienda</label>
                             <select name="tienda_id" id="" class="form-control">
@@ -33,6 +34,14 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Campañas</label>
+                            <select name="campaña_id" id="" class="form-control">
+                                @foreach ($campañas as $campaña)
+                                    <option value="{{ $campaña->id }}">{{ $campaña->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Numero de la factura</label>
                             <input type="text" class="form-control" id="exampleInputPassword1" name="numero_factura">
                         </div>
@@ -41,17 +50,8 @@
                             <input type="file" class="form-control" id="exampleInputPassword1" name="foto_factura">
                         </div>
                         <div class="mb-3">
-                            <label  class="form-label">Campaña</label>
-                            <input type="text" class="form-control" name="campaña">
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                        </div>
-                        <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Valor</label>
                             <input type="text" class="form-control" id="exampleInputPassword1" name="valor">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Fecha de caducidad</label>
-                            <input type="date" class="form-control" id="exampleInputPassword1" name="fecha_caducidad">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

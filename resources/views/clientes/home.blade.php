@@ -15,7 +15,8 @@
                     @endif
 
                     <form action="{{ route('store.cliente') }}" method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"></input>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"/>
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input type="nombre" class="form-control" name="nombre">
@@ -52,7 +53,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Mascotas</label>
-                            <input type="number" class="form-control" id="exampleInputPassword1" name="mascotas">
+                            <input type="checkbox" name="mascotas">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
