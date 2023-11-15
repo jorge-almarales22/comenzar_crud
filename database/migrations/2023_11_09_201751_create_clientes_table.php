@@ -13,15 +13,29 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('apellidos', 50);
+            
+            $table->foreignId('profesion_id')
+            ->references('id')
+            ->on('profesiones')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->foreignId('tipo_documento_id')
+            ->references('id')
+            ->on('tipo_documentos')
+            ->onUpdate('restrict')
+            ->onDelete('restrict');
+
+            $table->string('nombre', 30);
+            $table->string('apellidos', 30);
             $table->string('email', 50);
-            $table->integer('telefono');
-            $table->string('direccion', 50);
+            $table->integer('telefono')->length(10);
+            $table->string('direccion', 30);
             $table->timestamp('fecha_nacimiento');
-            $table->string('profesion', 50);
-            $table->integer('hijos');
-            $table->boolean('mascotas')->default(false);
+            $table->integer('hijos')->default(0)->length(4);
+            
+            $table->string('numero_documento', 20);
+            $table->integer('mascotas')->default(0)->length(4);
 
             $table->foreignId('user_id')
             ->references('id')

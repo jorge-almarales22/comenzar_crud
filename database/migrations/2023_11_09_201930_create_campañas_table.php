@@ -21,6 +21,8 @@ return new class extends Migration
             ->onDelete('restrict');
             $table->timestamp('fecha_inicio')->nullable();
             $table->timestamp('fecha_caducidad')->nullable();
+            $table->boolean('estado')->default(true);
+            $table->decimal('valor', $precision = 20, $scale = 2);
             $table->string('nombre', 50);
             $table->timestamps();
         });
