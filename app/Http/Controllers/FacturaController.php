@@ -14,7 +14,8 @@ class FacturaController extends Controller
 {
     public function index()
     {
-        // return view('home');
+        return view('home');
+        
     }
 
     public function create()
@@ -141,3 +142,4 @@ class FacturaController extends Controller
         return redirect()->route('home')->with('status', 'Factura eliminado exitosamente');
     }
 }
+

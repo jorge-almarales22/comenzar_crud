@@ -16,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/registroclientes', function () {
+    return view('registroclientes');
+});
+Route::get('/loginclientes', function () {
+    return view('loginclientes');
+});
+Route::get('/factura', function () {
+    return view('factura');
+});
+Route::get('/campaña', function () {
+    return view('campaña');
+});
+
 
 Route::get('/token', function () {
     
@@ -70,3 +83,4 @@ Route::prefix('/tickets')->group(function () {
     Route::post('/update', [App\Http\Controllers\TicketController::class, 'update'])->name('update.ticket');
     Route::post('/destroy', [App\Http\Controllers\TicketController::class, 'destroy'])->name('destroy.ticket');
 });
+// routes/web.php
