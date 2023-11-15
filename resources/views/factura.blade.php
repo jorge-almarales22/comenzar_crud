@@ -92,80 +92,152 @@
         background-color: hsla(0, 0%, 100%, 0.9) !important;
         backdrop-filter: saturate(200%) blur(25px);
     }
+    
+    .submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- Container wrapper -->
-        <div class="container-fluid">
-            <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <!-- Toggle button -->
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+            data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
 
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-lg-0" href="/">
-                    <img src="/img/crm.jpeg" height="70" alt="CRM Logo" loading="lazy" style="border-radius: 50%;" />
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Navbar brand -->
+            <a class="navbar-brand mt-2 mt-lg-0" href="/">
+                <img src="/img/crm.jpeg" height="70" alt="CRM Logo" loading="lazy" style="border-radius: 50%;" />
+            </a>
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item" id="registroInformacion">
+                    <a class="nav-link" href="#" style="font-size: 1.25rem;">Registro Informacion</a>
+                    <!-- Submenu for Registro Informacion -->
+                    <ul class="submenu">
+                        <li><a class="nav-link" href="/registroclientes">Registro clientes</a></li>
+                        <li><a class="nav-link" href="/factura">Registro Facturas</a></li>
+                        <!-- Agrega más subitems según sea necesario -->
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="font-size: 1.25rem;">Campaña y Fidelizacion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="font-size: 1.25rem;">Reportes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="font-size: 1.25rem;">Generar Ticket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="font-size: 1.25rem;">Actualizar</a>
+                </li>
+            </ul>
+            <!-- Left links -->
+        </div>
+        <!-- Collapsible wrapper -->
+
+        <!-- Right elements -->
+        <div class="d-flex align-items-center">
+            <!-- Icon -->
+            <a class="text-reset me-3" href="#">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <!-- Avatar -->
+            <div class="dropdown">
+                <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                    id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                    <img src="/img/acceso.png" class="rounded-circle" height="50"
+                        alt="Black and White Portrait of a Man" loading="lazy" />
                 </a>
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 1.25rem;">Registro Informacion</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                    <li>
+                        <a class="dropdown-item" href="#">My profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 1.25rem;">Campaña y Fidelizacion</a>
+                    <li>
+                        <a class="dropdown-item" href="#">Settings</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 1.25rem;">Reportes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 1.25rem;">Generar Ticket</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="font-size: 1.25rem;">Actualizar</a>
+                    <li>
+                        <a class="dropdown-item" href="#">Logout</a>
                     </li>
                 </ul>
-                <!-- Left links -->
             </div>
-            <!-- Collapsible wrapper -->
-
-            <!-- Right elements -->
-            <div class="d-flex align-items-center">
-                <!-- Icon -->
-                <a class="text-reset me-3" href="#">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-                <!-- Avatar -->
-                <div class="dropdown">
-                    <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
-                        id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        <img src="/img/acceso.png" class="rounded-circle" height="50"
-                            alt="Black and White Portrait of a Man" loading="lazy" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                        <li>
-                            <a class="dropdown-item" href="#">My profile</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Settings</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Right elements -->
         </div>
-        <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
+        <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+</nav>
+
+
+<!-- JavaScript para mostrar/ocultar el submenú al pasar el cursor -->
+<script>
+        var registroInformacion = document.getElementById('registroInformacion');
+    var submenu = registroInformacion.querySelector('.submenu');
+    var timeout;
+
+    registroInformacion.addEventListener('mouseenter', function () {
+        clearTimeout(timeout);
+        submenu.style.display = 'block';
+    });
+
+    registroInformacion.addEventListener('mouseleave', function () {
+        timeout = setTimeout(function () {
+            submenu.style.display = 'none';
+        }, 200); // 2000 milliseconds = 2 seconds
+    });
+
+    submenu.addEventListener('mouseenter', function () {
+        clearTimeout(timeout);
+    });
+</script>
+
+<style>
+    /* Estilo para ocultar el submenú por defecto */
+    .submenu {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .submenu a {
+        color: #333;
+        text-decoration: none;
+        display: block;
+        padding: 8px;
+        transition: background-color 0.3s;
+    }
+
+    .submenu a:hover {
+        background-color: #f8f9fa;
+    }
+    
+</style>
+
+<!-- Navbar -->
+
+
+
+
+            <!-- Collapsible wrapper -->
+     
 
     <!-- Section: Design Block -->
     <section class="background-radial-gradient overflow-hidden vh-120">

@@ -110,7 +110,8 @@
 
         if (!password.match(passwordPattern)) {
             alert(
-                'La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.');
+                'La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.'
+            );
             return false;
         }
 
@@ -141,9 +142,20 @@
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li class="nav-item" id="registroInformacion">
                         <a class="nav-link" href="#" style="font-size: 1.25rem;">Registro Informacion</a>
+                        <!-- Submenu for Registro Informacion -->
+                        <ul class="submenu">
+                            <li><a class="nav-link" href="/registroclientes">Registro clientes</a></li>
+                            <li><a class="nav-link" href="/factura">Registro Facturas</a></li>
+                            <li><a class="nav-link" href="/campaña">Campañas</a></li>
+                            <li><a class="nav-link" href="/">Tipos Documentos</a></li>
+                            <li><a class="nav-link" href="/">Tipo Profesiones Profesiones</a></li>
+
+                            <!-- Agrega más subitems según sea necesario -->
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#" style="font-size: 1.25rem;">Campaña y Fidelizacion</a>
                     </li>
@@ -191,6 +203,56 @@
         </div>
         <!-- Container wrapper -->
     </nav>
+
+
+    <!-- JavaScript para mostrar/ocultar el submenú al pasar el cursor -->
+    <script>
+    var registroInformacion = document.getElementById('registroInformacion');
+    var submenu = registroInformacion.querySelector('.submenu');
+    var timeout;
+
+    registroInformacion.addEventListener('mouseenter', function() {
+        clearTimeout(timeout);
+        submenu.style.display = 'block';
+    });
+
+    registroInformacion.addEventListener('mouseleave', function() {
+        timeout = setTimeout(function() {
+            submenu.style.display = 'none';
+        }, 200); // 2000 milliseconds = 2 seconds
+    });
+
+    submenu.addEventListener('mouseenter', function() {
+        clearTimeout(timeout);
+    });
+    </script>
+
+    <style>
+    /* Estilo para ocultar el submenú por defecto */
+    .submenu {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .submenu a {
+        color: #333;
+        text-decoration: none;
+        display: block;
+        padding: 8px;
+        transition: background-color 0.3s;
+    }
+
+    .submenu a:hover {
+        background-color: #f8f9fa;
+    }
+    </style>
+
     <!-- Navbar -->
 
     <!-- Section: Design Block -->
@@ -215,132 +277,243 @@
                             <h1 style="text-align:center">Registro Cliente</h1>
                             <form onsubmit="return validarFormulario()">
                                 <form>
-                                    <!-- 2 column grid layout with text inputs for the first and last names -->
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example1" class="form-control"
-                                                    placeholder="Juan Zuluaga" />
-                                                <label class="form-label" for="form3Example1">Nombre y apellidos</label>
-                                            </div>
-                                        </div>
 
-                                    </div>
-                                    <!--datos -->
+                                    <!--formulario-->
                                     <div class="row">
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example1" class="form-control"
-                                                    placeholder="# Celular" />
-                                                <label class="form-label" for="form3Example1">Teléfono</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example1" class="form-control"
-                                                    placeholder="Calle #" /> <label class="form-label"
-                                                    for="form3Example2">Dirección</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <input type="date" id="form3Example1" class="form-control" />
-                                                <label class="form-label" for="form3Example1">Fecha Nacimiento</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <select id="form3Example2" class="form-control"
-                                                    onchange="showInputField(this)">
-                                                    <option value="Estudiante">Estudiante</option>
-                                                    <option value="Empleado">Empleado</option>
-                                                    <option value="Desempleado">Desempleado</option>
-                                                    <option value="Profesional">Profesional</option>
-                                                    <option value="Tecnico">Técnico</option>
-                                                    <option value="Otraprofesion">Otro</option>
-                                                </select>
-                                                <input type="text" id="otroprofesion" class="form-control"
-                                                    style="display: none;" />
-                                                <label class="form-label" for="form3Example2">Profesión</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <script>
-                                    function showInputField(select) {
-                                        var inputField = document.getElementById('otraprofesion');
-                                        if (select.value === 'Otraprofesion') {
-                                            inputField.style.display = 'block';
-                                        } else {
-                                            inputField.style.display = 'none';
-                                        }
-                                    }
-                                    </script>
+    <div class="col-md-6 mb-4">
+        <div class="form-outline">
+            <label class="form-label" for="form3Example2">Tipo de Documento</label>
+            <select id="form3Example2" class="form-control" onchange="showInputField(this)">
+                <option value="CC">Cédula de Ciudadanía</option>
+                <option value="TI">Tarjeta de Identidad (T.I)</option>
+                <option value="CE">Cédula de Extranjería (C.E)</option>
+                <option value="Pasaporte">Pasaporte</option>
+                <option value="Otro">Otro</option>
+            </select>
+            <input type="text" id="otro" class="form-control" style="display: none;" />
+        </div>
+    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <select id="form3Example1" class="form-control">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                    <option value="6">6</option>
-                                                    <option value="7">7</option>
-                                                </select>
-                                                <label class="form-label" for="form3Example1">Hijos</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="form-outline">
-                                                <select id="form3Example2" class="form-control"
-                                                    onchange="showInputField(this)">
-                                                    <option value="Perro">Perro</option>
-                                                    <option value="Gato">Gato</option>
-                                                    <option value="Otro">Otro</option>
-                                                    <option value="Ninguno">Ninguno</option>
-                                                </select>
-                                                <input type="text" id="otroTipo" class="form-control"
-                                                    style="display: none;" />
-                                                <label class="form-label" for="form3Example2">Mascotas</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <script>
-                                    function showInputField(select) {
-                                        var inputField = document.getElementById('otroTipo');
-                                        if (select.value === 'Otro') {
-                                            inputField.style.display = 'block';
-                                        } else {
-                                            inputField.style.display = 'none';
-                                        }
-                                    }
-                                    </script>
-                                    <!-- 2 column grid layout with text inputs for the first and last names -->
-                                    <div class="row">
-                                        <div class="col-md-12 mb-4">
-                                            <!-- Email input -->
-                                            <div class="form-outline mb-4">
-                                                <input type="email" id="form3Example3" class="form-control"
-                                                    placeholder="Correo" />
-                                                <label class="form-label" for="form3Example3">Email address</label>
-                                            </div>
+    <div class="col-md-6 mb-4">
+        <div class="form-outline">
+            <label class="form-label" for="numeroDocumento">Número de Documento</label>
+            <input type="text" id="numeroDocumento" class="form-control" onkeypress="return validate(event)" placeholder="Número de documento" />
+        </div>
+    </div>
 
-                                            <!-- Password input -->
-                                            <div class="containerbtnIniciar" href="factura">
-                                               
-                                                <a href="factura" class="btn btn-primary " tabindex="-1" role="button" >Registrar</a>
+    <div class="col-md-12 mb-4">
+    <!-- Botón de Consultar al inicio -->
+    <button class="btn btn-primary" onclick="consultarBaseDeDatos()">Consultar</button>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+    <!-- Botón de Eliminar en el medio -->
+    <button class="btn btn-danger" onclick="eliminarCliente()">Eliminar</button>
+
+    <!-- Botón de Modificar -->
+    <button class="btn btn-success" id="btnModificar" onclick="modificarCliente()" disabled>Modificar</button>
+</div>
+</div>
+
+<script>
+    
+    function consultarBaseDeDatos() {
+        // Realiza la lógica de consulta aquí
+        
+        // Después de realizar la consulta, habilita el botón de Modificar
+        document.getElementById("btnModificar").removeAttribute("disabled");
+        
+
+           function consultarBaseDeDatos() {
+        // Aquí deberías realizar la lógica para consultar la base de datos
+        // usando el tipo de documento y el número de documento seleccionados
+
+        // Después de la consulta, habilitar el botón de Eliminar
+        document.getElementById("btnEliminar").removeAttribute("disabled");
+        // También puedes deshabilitar otros campos si es necesario
+        document.getElementById('form3Example2').disabled = true;
+        document.getElementById('numeroDocumento').disabled = true;
+    }
+
+    }
+
+    function eliminarCliente() {
+        // Lógica de eliminación del cliente
+    }
+
+    function modificarCliente() {
+        // Lógica de modificación del cliente
+    }
+
+     function eliminarCliente() {
+        // Obtener el número de documento del cliente
+        var numeroDocumento = document.getElementById("numeroDocumento").value;
+
+        // Aquí debes realizar la lógica para eliminar el cliente de la base de datos.
+        // Puedes usar AJAX para enviar una solicitud al servidor y realizar la eliminación.
+
+        // Por ejemplo:
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("POST", "eliminar_cliente.php", true);
+        // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState == 4 && xhr.status == 200) {
+        //         // Manejar la respuesta del servidor, si es necesario.
+        //         console.log(xhr.responseText);
+        //     }
+        // };
+        // xhr.send("numeroDocumento=" + numeroDocumento);
+
+        // Nota: Esto es solo un ejemplo, debes adaptarlo según tu entorno y lógica de eliminación.
+
+        // Una vez que hayas eliminado el cliente, puedes realizar acciones adicionales, si es necesario.
+        limpiarFormulario();
+    }
+
+    function limpiarFormulario() {
+        // Limpiar los campos del formulario
+        document.getElementById("form3Example2").value = "CC";
+        document.getElementById("numeroDocumento").value = "";
+        document.getElementById("otro").style.display = "none";
+    }
+    function showInputField(select) {
+        var inputField = document.getElementById('otro');
+        if (select.value === 'Otro') {
+            inputField.style.display = 'block';
+        } else {
+            inputField.style.display = 'none';
+        }
+    }
+
+    function consultarBaseDeDatos() {
+        // Aquí deberías realizar la lógica para consultar la base de datos
+        // usando el tipo de documento y el número de documento seleccionados
+
+        // Después de la consulta, deshabilitar los campos
+        document.getElementById('form3Example2').disabled = true;
+        document.getElementById('numeroDocumento').disabled = true;
+    }
+</script>
+                    <script>
+                    function validate(evt) {
+                        var theEvent = evt || window.event;
+
+                        // Handle paste
+                        if (theEvent.type === 'paste') {
+                            key = event.clipboardData.getData('text/plain');
+                        } else {
+                            // Handle key press
+                            var key = theEvent.keyCode || theEvent.which;
+                            key = String.fromCharCode(key);
+                        }
+                        var regex = /[0-9\.]|\./;
+                        if (!regex.test(key)) {
+                            theEvent.returnValue = false;
+                            if (theEvent.preventDefault) theEvent.preventDefault();
+                        }
+                    }
+                    </script>
+
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example1">Nombres</label>
+                                <input type="text" id="form3Example1" class="form-control" placeholder="Juan" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example2">Apellidos</label>
+                                <input type="text" id="form3Example2" class="form-control" placeholder="Zuluaga" />
+                            </div>
                         </div>
                     </div>
+
+                    <!--datos -->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example1">Teléfono</label>
+                                <input type="text" id="form3Example1" class="form-control" placeholder="# Celular" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example2">Dirección</label>
+                            </div>
+                            <input type="text" id="form3Example1" class="form-control" placeholder="Calle #" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example1">Fecha Nacimiento</label>
+                                <input type="date" id="form3Example1" class="form-control" />
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example2">Profesión</label>
+                                <select id="form3Example2" class="form-control" onchange="showInputField(this)">
+                                    <option value="Estudiante">Estudiante</option>
+                                    <option value="Empleado">Empleado</option>
+                                    <option value="Desempleado">Desempleado</option>
+                                    <option value="Profesional">Profesional</option>
+                                    <option value="Tecnico">Técnico</option>
+                                    <option value="Otraprofesion">Otro</option>
+                                </select>
+                                <input type="text" id="otroprofesion" class="form-control" style="display: none;" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example1">Hijos</label>
+                                <select id="form3Example1" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="0">Ninguno</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <label class="form-label" for="form3Example2">Mascotas</label>
+                                <input type="number" id="form3Example2" class="form-control" min="0" placeholder="0" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="form3Example3">Email</label>
+                                <input type="email" id="form3Example3" class="form-control" placeholder="Correo" />
+
+                            </div>
+                            <!-- Email input -->
+                            <div class="containerbtnIniciar" href="factura">
+
+                                <a href="factura" class="btn btn-primary " tabindex="-1" role="button">Registrar</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <style>
         .background-radial-gradient {
