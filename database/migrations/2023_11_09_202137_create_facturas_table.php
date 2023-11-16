@@ -34,7 +34,8 @@ return new class extends Migration
 
             $table->string("numero_factura", 20);
             $table->string("foto_factura", 255);
-            $table->decimal('valor', $precision = 20, $scale = 2);
+            $table->decimal('valor_factura', $precision = 20, $scale = 2);
+            $table->decimal('saldo', $precision = 20, $scale = 2);
 
             $table->foreignId('user_id')
             ->references('id')
