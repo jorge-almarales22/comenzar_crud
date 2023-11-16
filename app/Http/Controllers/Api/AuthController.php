@@ -7,66 +7,75 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
-   
+
     public function login(Request $request)
-    {    	
-    	$credentials = $request->only('email', 'password');
-        $validator = Validator::make($credentials, [
-        'email' => 'required|string|email',
-        'password' => 'required|string|min:6',
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
         ]);
-       
-        if($validator->fails()){
+        $credentials = $request->only('email', 'password');
+        $token = Auth::attempt($credentials);
+        
+        if (!$token) {
             return response()->json([
-                'success' => false,
-                'message' => 'The fields are not correct',
-                'errors' => $validator->errors()
-            ],422);
+                'message' => 'Unauthorized',
+            ], 401);
         }
 
-        try {
-            if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
-        }
-        return response()->json(compact('token'));
-        
+        $user = Auth::user();
+        return response()->json([
+            'user' => $user,
+            'authorization' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
     }
-   
-    public function me()
+
+    public function register(Request $request)
     {
-        return response()->json(auth()->user());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'User created successfully',
+            'user' => $user
+        ]);
     }
 
     public function logout()
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        Auth::logout();
+        return response()->json([
+            'message' => 'Successfully logged out',
+        ]);
     }
-
 
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
-    protected function respondWithToken($token)
-    {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'user' => Auth::user(),
+            'authorisation' => [
+                'token' => Auth::refresh(),
+                'type' => 'bearer',
+            ]
         ]);
     }
 }
