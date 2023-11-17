@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api\Cliente;
 
+use App\Models\User;
 use App\Models\Cliente;
+use App\Models\Profesion;
 use Illuminate\Http\Request;
+use App\Models\TipoDocumento;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -135,10 +138,25 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($id);
         $cliente->delete();
-        
+
         return response()->json([
             'success' => true,
             'message' => 'El cliente ha sido eliminado'
         ]);
     }
+
+    public function infoSelect()
+    {
+        $profesiones = Profesion::get();
+        $operadores = User::get();
+        $tipoDocumentos = TipoDocumento::get();
+        
+        return response()->json([
+            'success' => true,
+            'profesiones' => $profesiones,
+            'operadores' => $operadores,
+            'tipoDocumentos' => $tipoDocumentos
+        ], 200);
+    }
+
 }

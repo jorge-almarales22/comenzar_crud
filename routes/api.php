@@ -19,6 +19,7 @@ Route::prefix('/auth')->group(function () {
 Route::prefix('/clientes')->group(function () {
 
     Route::get('/', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'index']);
+    Route::get('/info', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'infoSelect']);
     Route::post('/store', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'store']);
     Route::put('/update/{cliente}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'update']);
     Route::delete('/delete/{cliente}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'delete']);

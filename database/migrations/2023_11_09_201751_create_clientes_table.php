@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('nombre', 30);
             $table->string('apellidos', 30);
             $table->string('email', 50);
-            $table->integer('telefono')->length(10);
+            $table->string('telefono', 20);
             $table->string('direccion', 30);
             $table->timestamp('fecha_nacimiento');
             $table->integer('hijos')->default(0)->length(4);
