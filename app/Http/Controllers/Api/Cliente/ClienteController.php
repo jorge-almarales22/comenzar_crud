@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('jwt.auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('jwt.auth');
+    // }
 
     public function index()
     {
@@ -77,7 +77,7 @@ class ClienteController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $documento)
     {
         $credentials = $request->only('profesion_id', 'tipo_documento_id', 'nombre', 'apellidos', 'email', 'telefono', 'direccion', 'fecha_nacimiento', 'hijos', 'numero_documento', 'mascotas', 'user_id');   
 
@@ -91,7 +91,7 @@ class ClienteController extends Controller
             'direccion' => 'required|string',
             'fecha_nacimiento' => 'required|date',
             'hijos' => 'required|numeric',
-            'numero_documento' => 'required|numeric|max:9999999999|min:9999999|unique:clientes,numero_documento',
+            'numero_documento' => 'required|numeric|max:9999999999|min:9999999',
             'mascotas' => 'required|boolean',
             'user_id' => 'required|numeric'
         ]);
@@ -104,7 +104,7 @@ class ClienteController extends Controller
             ],422);
         }
 
-        $cliente = Cliente::find($id);
+        $cliente = Cliente::where('numero_documento',$documento)->first();
 
         if(!$cliente){
             return response()->json([
@@ -121,7 +121,11 @@ class ClienteController extends Controller
         $cliente->direccion = $request->direccion;
         $cliente->fecha_nacimiento = $request->fecha_nacimiento;
         $cliente->hijos = $request->hijos;
-        $cliente->numero_documento = $request->numero_documento;
+
+        if($cliente->numero_documento != $request->numero_documento){
+            $cliente->numero_documento = $request->numero_documento;
+        }
+
         $cliente->mascotas = $request->mascotas;
         $cliente->user_id = $request->user_id;
 
@@ -157,6 +161,41 @@ class ClienteController extends Controller
             'operadores' => $operadores,
             'tipoDocumentos' => $tipoDocumentos
         ], 200);
+    }
+
+    public function show($documento)
+    {
+        $cliente = Cliente::where('numero_documento', $documento)->first();
+
+        if(!$cliente){
+            return response()->json([
+                'success' => false,
+                'message' => 'El cliente no existe'
+            ], 404);
+        }
+
+        $tipoDocumento = TipoDocumento::where('id', $cliente->tipo_documento_id)->first();
+        $profesion = Profesion::where('id', $cliente->profesion_id)->first();
+
+        $cliente->tipo_documento = $tipoDocumento->nombre_tipo_documento;
+        $cliente->tipo_documento_id = $tipoDocumento->id;
+        $cliente->profesion = $profesion->nombre_profesion;
+
+        $dateFormat = new \DateTime($cliente->fecha_nacimiento);
+        $cliente->fecha_nacimiento = $dateFormat->format('Y-m-d');
+        $cliente->profesion_id = $profesion->id;
+
+        if(!$cliente){
+            return response()->json([
+                'success' => false,
+                'message' => 'El cliente no existe'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $cliente
+        ]);
     }
 
 }

@@ -23,5 +23,6 @@ Route::prefix('/clientes')->group(function () {
     Route::post('/store', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'store']);
     Route::put('/update/{cliente}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'update']);
     Route::delete('/delete/{cliente}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'delete']);
+    Route::get('/show/{documento}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'show']);
 
 });
