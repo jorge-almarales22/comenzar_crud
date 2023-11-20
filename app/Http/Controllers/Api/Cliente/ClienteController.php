@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('jwt.auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('jwt.auth');
+    // }
 
     public function index()
     {
@@ -43,7 +43,7 @@ class ClienteController extends Controller
             'fecha_nacimiento' => 'required|date',
             'hijos' => 'required|numeric',
             'numero_documento' => 'required|numeric|max:9999999999|min:9999999|unique:clientes,numero_documento',
-            'mascotas' => 'required|boolean',
+            'mascotas' => 'required|integer',
             'user_id' => 'required|numeric',
         ]);
 
@@ -93,7 +93,7 @@ class ClienteController extends Controller
             'fecha_nacimiento' => 'required|date',
             'hijos' => 'required|numeric',
             'numero_documento' => 'required|numeric|max:9999999999|min:9999999',
-            'mascotas' => 'required|boolean',
+            'mascotas' => 'required|integer',
             'user_id' => 'required|numeric'
         ]);
 
