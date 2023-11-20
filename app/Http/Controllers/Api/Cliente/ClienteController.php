@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Cliente;
 
 use App\Models\User;
 use App\Models\Cliente;
+use App\Models\Factura;
 use App\Models\Profesion;
 use Illuminate\Http\Request;
 use App\Models\TipoDocumento;
@@ -13,10 +14,10 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('jwt.auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
 
     public function index()
     {
@@ -138,15 +139,38 @@ class ClienteController extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function delete($documento)
     {
-        $cliente = Cliente::find($id);
-        $cliente->delete();
+        $cliente = Cliente::where('numero_documento', $documento)->first();
+
+        if(!$cliente){
+
+            return response()->json([
+                'success' => false,
+                'message' => 'El cliente no existe'
+            ], 404);
+
+        }
+
+        $factura = Factura::where('cliente_id', $cliente->id)->first();
+
+        if(!$factura){
+
+            $cliente->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'El cliente ha sido eliminado'
+            ]);
+
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => 'El cliente ha sido eliminado'
-        ]);
+            'success' => false,
+            'message' => 'El cliente no se puede eliminar, ya que tiene una factura registrada'
+        ], 404);       
+
+        
     }
 
     public function infoSelect()
