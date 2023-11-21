@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('jwt.auth');
-    // }
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
 
     public function index()
     {

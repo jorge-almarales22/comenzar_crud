@@ -26,3 +26,11 @@ Route::prefix('/clientes')->group(function () {
     Route::get('/show/{documento}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'show']);
 
 });
+
+Route::prefix('/facturas')->group(function () {
+
+    Route::post('/store', [\App\Http\Controllers\Api\Facturas\FacturaController::class, 'guardarFactura']);
+    Route::post('/show', [\App\Http\Controllers\Api\Facturas\FacturaController::class, 'BuscarFacturasPorCliente']);
+    Route::post('/redimir', [\App\Http\Controllers\Api\Facturas\FacturaController::class, 'RedimirFacturas']);
+
+});
