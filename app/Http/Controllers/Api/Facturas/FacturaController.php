@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api\Facturas;
 
 use App\Models\Ticket;
+use App\Models\Campaña;
 use App\Models\Cliente;
 use App\Models\Factura;
-use App\Models\Campaña;
 use Illuminate\Http\Request;
+use App\Models\FacturaTicket;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -136,6 +137,12 @@ class FacturaController extends Controller
                     $ticket->numero = uniqid();
                     $ticket->save();
 
+                    $facturaTicket = new FacturaTicket();
+                    $facturaTicket->factura_id = $factura->id;
+                    $facturaTicket->ticket_id = $ticket->id;
+                    $facturaTicket->valor_redimido = $campana->valor;
+                    $facturaTicket->save();
+
                     if($factura->saldo == 0):
 
                         $factura->redimido = true;
@@ -162,6 +169,7 @@ class FacturaController extends Controller
                     $factura->save();
     
                 endif;
+
             else:
 
                 if($index + 1 < $lenght):
@@ -177,6 +185,13 @@ class FacturaController extends Controller
                     $factura->redimido = true;
     
                     $factura->save();
+
+                else:
+
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'El saldo de la facturas fue redimido pero no alcanzó el valor de la campaña para gener un ticket',
+                    ], 400);
     
                 endif;
 
