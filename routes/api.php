@@ -26,3 +26,18 @@ Route::prefix('/clientes')->group(function () {
     Route::get('/show/{documento}', [\App\Http\Controllers\Api\Cliente\ClienteController::class, 'show']);
 
 });
+
+Route::prefix('/factura')->group(function () {
+    Route::post('/store', [\App\Http\Controllers\Api\Factura\FacturaController::class, 'store']); 
+    Route::get('/BuscarClienteConFacturas/{documento}', [\App\Http\Controllers\Api\Factura\FacturaController::class, 'BuscarClienteConFacturas']);
+    
+
+});
+
+Route::prefix('/campaña')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Api\Campaña\CampañaController::class, 'index']);
+    Route::post('/store', [\App\Http\Controllers\Api\Campaña\CampañaController::class, 'store']);
+    Route::put('/update/{idCampaña}', [\App\Http\Controllers\Api\Campaña\CampañaController::class, 'update']);
+    Route::delete('/delete/{idCampaña}', [\App\Http\Controllers\Api\Campaña\CampañaController::class, 'delete']);
+    Route::get('/show/{idCampaña}', [\App\Http\Controllers\Api\Campaña\CampañaController::class, 'show']);
+   });
