@@ -34,3 +34,11 @@ Route::prefix('/facturas')->group(function () {
     Route::post('/redimir', [\App\Http\Controllers\Api\Facturas\FacturaController::class, 'RedimirFacturas']);
 
 });
+
+Route::prefix('/tiendas')->group(function () {
+
+    Route::post('/store', [\App\Http\Controllers\Api\Tiendas\TiendaController::class, 'store']);
+    Route::put('/update/{tienda_id}', [\App\Http\Controllers\Api\Tiendas\TiendaController::class, 'update']);
+    Route::delete('/destroy/{tienda_id}', [\App\Http\Controllers\Api\Tiendas\TiendaController::class, 'destroy']);
+
+});
