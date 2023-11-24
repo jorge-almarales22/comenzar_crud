@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('factura_tickets', function (Blueprint $table) {
+        Schema::create('cliente_campaña_saldos', function (Blueprint $table) {
             $table->id();
-            
-            $table->foreignId('factura_id')
+
+            $table->foreignId('cliente_id')
             ->references('id')
-            ->on('facturas')
+            ->on('clientes')
             ->onUpdate('restrict')
             ->onDelete('restrict');
 
-            $table->foreignId('ticket_id')
+            $table->foreignId('campaña_id')
             ->references('id')
-            ->on('tickets')
+            ->on('campañas')
             ->onUpdate('restrict')
             ->onDelete('restrict');
 
-            $table->decimal('valor_redimido', $precision = 20, $scale = 2);
+            $table->decimal('saldo', $precision = 20, $scale = 2);
+
             $table->timestamps();
         });
     }
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('factura_tickets');
+        Schema::dropIfExists('cliente_campaña_saldos');
     }
 };

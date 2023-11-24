@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use App\Models\Campaña;
 use App\Models\Cliente;
 use App\Models\Factura;
+use App\Models\ClienteCampañaSaldo;
 use Illuminate\Http\Request;
 use App\Models\FacturaTicket;
 use App\Http\Controllers\Controller;
@@ -20,13 +21,12 @@ class FacturaController extends Controller
 
     public function guardarFactura(Request $request)
     {
-        $credentials = $request->only('cliente_id', 'tienda_id', 'campaña_id', 'foto_factura', 'valor_factura', 'saldo', 'user_id');  
+        $credentials = $request->only('cliente_id', 'tienda_id', 'campaña_id', 'valor_factura', 'user_id');  
 
         $validator = Validator::make($credentials, [
             'cliente_id' => 'required',
             'tienda_id' => 'required',
             'campaña_id' => 'required',
-            'foto_factura' => 'required',
             'valor_factura' => 'required',
             'user_id' => 'required',
         ]);
@@ -44,11 +44,9 @@ class FacturaController extends Controller
         $factura->cliente_id = $request->cliente_id;
         $factura->tienda_id = $request->tienda_id;
         $factura->campaña_id = $request->campaña_id;
+        $factura->user_id = $request->user_id;
         $factura->foto_factura = $request->foto_factura;
         $factura->valor_factura = $request->valor_factura;
-        $factura->saldo = $request->valor_factura;
-        $factura->user_id = $request->user_id;
-        $factura->redimido = false;
         $factura->save();
 
         return response()->json([
@@ -103,11 +101,9 @@ class FacturaController extends Controller
 
     public function RedimirFacturas(Request $request)
     {
-        $facturas = Factura::whereIn('id', $request->facturas)->where('redimido', 0)->orderBy('created_at', 'ASC')->get();
+        $facturas = Factura::whereIn('id', $request->facturas)->where('redimido', 0)->get();
 
         $campana = Campaña::find($request->campaña_id);
-
-        $saldo_total = 0;
 
         if($facturas->count() == 0 || $campana == null)
         {
@@ -117,90 +113,64 @@ class FacturaController extends Controller
             ], 404);
         }
 
+        $valorTotalFacturas = 0;
+
         foreach($facturas as $factura):
-
-            $saldo_total += $factura->saldo;
-
+            $valorTotalFacturas = $valorTotalFacturas + $factura->valor_factura;  
         endforeach;
 
-        $lenght = sizeof($facturas);
+        $saldoCliente = ClienteCampañaSaldo::where('campaña_id', $request->campaña_id)->where('cliente_id', $factura->cliente_id)->first(); 
 
-        foreach($facturas as $index => $factura):
+        
+        if($saldoCliente && $saldoCliente->saldo > 0 && ($valorTotalFacturas + $saldoCliente->saldo) >= $campana->valor):
+            
+            $valorTotalFacturas = $valorTotalFacturas + $saldoCliente->saldo;
+            $saldoCliente->delete();            
+            
+        endif;
 
-            if($factura->saldo >= $campana->valor):
-
-                while($factura->saldo >= $campana->valor):
-    
-                    $factura->saldo = $factura->saldo - $campana->valor;
-    
-                    $ticket = new Ticket();
-                    $ticket->numero = uniqid();
-                    $ticket->save();
-
-                    $facturaTicket = new FacturaTicket();
-                    $facturaTicket->factura_id = $factura->id;
-                    $facturaTicket->ticket_id = $ticket->id;
-                    $facturaTicket->valor_redimido = $campana->valor;
-                    $facturaTicket->save();
-
-                    if($factura->saldo == 0):
-
-                        $factura->redimido = true;
-                        
-                    endif;
-
-                    $factura->save();
-    
-                endwhile;
+        $saldoGenerado = $valorTotalFacturas % $campana->valor;
+        
+        
+        if($valorTotalFacturas >= $campana->valor):
+            
+            if($saldoGenerado > 0):
                 
-                //verificamos si la ultima factura del array de facturas
-                if($index + 1 < $lenght):
-    
-                    //sumamos saldo a la proxima factura
-                    $facturas[$index + 1]->saldo = $facturas[$index + 1]->saldo + $factura->saldo;
-        
-                    $facturas[$index + 1]->save();
-    
-                    //reiniciamos el saldo de la actual factura y estado pasa a redimido
-                    $factura->saldo = 0;
-    
-                    $factura->redimido = true;
-    
-                    $factura->save();
-    
-                endif;
-
-            else:
-
-                if($index + 1 < $lenght):
-    
-                    //sumamos saldo a la proxima factura
-                    $facturas[$index + 1]->saldo = $facturas[$index + 1]->saldo + $factura->saldo;
-        
-                    $facturas[$index + 1]->save();
-    
-                    //reiniciamos el saldo de la actual factura y estado pasa a redimido
-                    $factura->saldo = 0;
-    
-                    $factura->redimido = true;
-    
-                    $factura->save();
-
-                else:
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'El saldo de la facturas fue redimido pero no alcanzó el valor de la campaña para gener un ticket',
-                    ], 400);
-    
-                endif;
-
-
+                $saldoTemporal = new ClienteCampañaSaldo();
+                $saldoTemporal->cliente_id = $request->cliente_id;
+                $saldoTemporal->campaña_id = $request->campaña_id;
+                $saldoTemporal->saldo = $saldoGenerado;
+                $saldoTemporal->save();
             endif;
+                
+            foreach($facturas as $factura):
+    
+                $factura->redimido = true;
+                $factura->fecha_redimido = date("Y-m-d H:i:s");
+    
+                $factura->save();
+    
+            endforeach;
+    
+    
+            for($i = 1; $i <= floor($valorTotalFacturas / $campana->valor); $i++)
+            {
+                $ticket = new Ticket();
+                $ticket->cliente_id = $request->cliente_id;
+                $ticket->numero = uniqid();
+                $ticket->save();
+            }
+
+        else:
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se puede redimir facturas, la suma de las facturas es menor al valor de la campaña',
+            ], 404);
+
+        endif;
 
 
-        endforeach;
-        
         return response()->json([
             'success' => true,
             'message' => 'Facturas redimidas',

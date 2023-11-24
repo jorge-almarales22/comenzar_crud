@@ -39,11 +39,7 @@ class ClienteController extends Controller
             'apellidos' => 'required|string',
             'email' => 'required|email',
             'telefono' => 'required|numeric',
-            'direccion' => 'required|string',
-            'fecha_nacimiento' => 'required|date',
-            'hijos' => 'required|numeric',
             'numero_documento' => 'required|numeric|max:9999999999|min:9999999|unique:clientes,numero_documento',
-            'mascotas' => 'required|integer',
             'user_id' => 'required|numeric',
         ]);
 
@@ -89,11 +85,7 @@ class ClienteController extends Controller
             'apellidos' => 'required|string',
             'email' => 'required|email',
             'telefono' => 'required|numeric',
-            'direccion' => 'required|string',
-            'fecha_nacimiento' => 'required|date',
-            'hijos' => 'required|numeric',
             'numero_documento' => 'required|numeric|max:9999999999|min:9999999',
-            'mascotas' => 'required|integer',
             'user_id' => 'required|numeric'
         ]);
 

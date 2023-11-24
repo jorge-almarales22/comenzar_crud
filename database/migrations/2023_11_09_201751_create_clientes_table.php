@@ -28,14 +28,14 @@ return new class extends Migration
 
             $table->string('nombre', 30);
             $table->string('apellidos', 30);
-            $table->string('email', 50);
+            $table->string('email', 50)->unique();
             $table->string('telefono', 20);
-            $table->string('direccion', 30);
-            $table->timestamp('fecha_nacimiento');
-            $table->integer('hijos')->default(0)->length(4);
+            $table->string('direccion', 30)->nullable();
+            $table->timestamp('fecha_nacimiento')->nullable();
+            $table->integer('hijos')->default(0)->length(4)->nullable();
             
-            $table->string('numero_documento', 20);
-            $table->integer('mascotas')->default(0)->length(4);
+            $table->string('numero_documento', 20)->unique();
+            $table->integer('mascotas')->default(0)->length(4)->nullable();
 
             $table->foreignId('user_id')
             ->references('id')

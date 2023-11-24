@@ -32,18 +32,21 @@ return new class extends Migration
             ->onUpdate('restrict')
             ->onDelete('restrict');
 
-            $table->string("numero_factura", 20);
-            $table->string("foto_factura", 255);
+            $table->string("numero_factura", 20)->unique();
+
+            $table->string("foto_factura", 255)->nullable();
+
             $table->decimal('valor_factura', $precision = 20, $scale = 2);
-            $table->decimal('saldo', $precision = 20, $scale = 2);
+            
+            $table->boolean('redimido')->default(false);
+
+            $table->timestamp("fecha_redimido")->nullable();
 
             $table->foreignId('user_id')
             ->references('id')
             ->on('users')
             ->onUpdate('restrict')
             ->onDelete('restrict');
-
-            $table->boolean('redimido')->default(false);
 
             $table->timestamps();
         });
