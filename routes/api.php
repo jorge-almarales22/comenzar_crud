@@ -42,3 +42,11 @@ Route::prefix('/tiendas')->group(function () {
     Route::delete('/destroy/{tienda_id}', [\App\Http\Controllers\Api\Tiendas\TiendaController::class, 'destroy']);
 
 });
+
+Route::prefix('/campañas')->group(function () {
+
+    Route::post('/store', [\App\Http\Controllers\Api\Campañas\CampañaController::class, 'store']);
+    Route::put('/update/{campaña_id}', [\App\Http\Controllers\Api\Campañas\CampañaController::class, 'update']);
+    Route::delete('/destroy/{campaña_id}', [\App\Http\Controllers\Api\Campañas\CampañaController::class, 'destroy']);
+
+});
