@@ -101,7 +101,7 @@ class FacturaController extends Controller
 
     public function RedimirFacturas(Request $request)
     {
-        $facturas = Factura::whereIn('id', $request->facturas)->where('redimido', 0)->get();
+        $facturas = Factura::where('cliente_id', $request->cliente_id)->where('redimido', 0)->get();
 
         $campana = Campaña::find($request->campaña_id);
 
